@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.hassan.bizcardapp"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.hassan.bizcardapp"
