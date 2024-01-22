@@ -1,6 +1,7 @@
 package com.hassan.tipapp
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
@@ -24,6 +25,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -83,6 +85,16 @@ fun TopHeader(totalPerPerson: Double = 134.0) {
 @Preview
 @Composable
 fun MainContent() {
+    BillForm(modifier = Modifier){ billAmt ->
+        Log.d("AMT", "MainContent: ${billAmt.toInt() * 100}")
+    }
+
+}
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+fun BillForm(modifier: Modifier,
+             onValChange: (String) -> Unit = {}
+) {
     val totalBillState = remember {
         mutableStateOf("")
     }
@@ -101,14 +113,16 @@ fun MainContent() {
             InputField(modifier = Modifier, valueState = totalBillState, labelId = "Enter Bill", enabled = true, isSingleLine = true,
                 onAction = KeyboardActions {
                     if(!validState) return@KeyboardActions
-                    //Todo - onvaluechnaged
+                    onValChange(totalBillState.value.trim())
 
                     keyboardController?.hide()
                 }
             )
         }
     }
+
 }
+
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
