@@ -41,6 +41,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.hassan.tipapp.components.InputField
 import com.hassan.tipapp.ui.theme.TipAppTheme
+import com.hassan.tipapp.util.calculateTotalBillPerPerson
 import com.hassan.tipapp.util.calculateTotalTip
 import com.hassan.tipapp.widgets.RoundIconButton
 
@@ -128,9 +129,12 @@ fun BillForm(modifier: Modifier,
     val tipAmountState = remember {
         mutableStateOf(0.0)
     }
+    val totalPerPersonState = remember {
+        mutableStateOf(0.0)
+    }
     val range = IntRange(start =1, endInclusive = 100)
 
-    TopHeader()
+    TopHeader(totalPerPerson = totalPerPersonState.value)
 
     Surface(
         modifier = Modifier
@@ -150,51 +154,56 @@ fun BillForm(modifier: Modifier,
 
                     keyboardController?.hide()
                 })
-            //if (validState) {
-                Row(modifier = Modifier.padding(3.dp),
-                    horizontalArrangement = Arrangement.Start) {
-                    Text("Split",
-                        modifier = Modifier.align(
-                            alignment = Alignment.CenterVertically
-                        ))
-                    Spacer(modifier = Modifier.width(120.dp))
-                    Row(modifier = Modifier.padding(horizontal = 3.dp),
-                        horizontalArrangement = Arrangement.End) {
-                        RoundIconButton(
-                            imageVector = Icons.Default.Remove,
-                            onClick = {
-                                splitByState.value =
-                                    if (splitByState.value > 1) splitByState.value - 1
-                                else 1
-                            })
 
-                        Text(text = "${splitByState.value}",
-                            modifier = Modifier
-                                .align(Alignment.CenterVertically)
-                                .padding(start = 9.dp, end = 9.dp))
+            Row(modifier = Modifier.padding(3.dp),
+                horizontalArrangement = Arrangement.Start) {
+                Text("Split",
+                    modifier = Modifier.align(
+                        alignment = Alignment.CenterVertically
+                    ))
+                Spacer(modifier = Modifier.width(120.dp))
+                Row(modifier = Modifier.padding(horizontal = 3.dp),
+                    horizontalArrangement = Arrangement.End) {
+                    RoundIconButton(
+                        imageVector = Icons.Default.Remove,
+                        onClick = {
+                            splitByState.value =
+                                if (splitByState.value > 1) splitByState.value - 1 else 1
 
-                        RoundIconButton(
-                            imageVector = Icons.Default.Add,
-                            onClick = {
-                                if (splitByState.value < range.last) {
-                                    splitByState.value = splitByState.value + 1
-                                }
-                            })
-                    }
+                            totalPerPersonState.value = calculateTotalBillPerPerson(totalBill = totalBillState.value,
+                                splitBy = splitByState.value, tipPercentage = tipPercentage)
+                        })
+
+                    Text(text = "${splitByState.value}",
+                        modifier = Modifier
+                            .align(Alignment.CenterVertically)
+                            .padding(start = 9.dp, end = 9.dp))
+
+                    RoundIconButton(
+                        imageVector = Icons.Default.Add,
+                        onClick = {
+                            if (splitByState.value < range.last) {
+                                splitByState.value = splitByState.value + 1
+
+                                totalPerPersonState.value = calculateTotalBillPerPerson(totalBill = totalBillState.value,
+                                    splitBy = splitByState.value, tipPercentage = tipPercentage)
+                            }
+                        })
                 }
+            }
                 //Tip Row
-                Row(modifier = Modifier.padding(horizontal = 3.dp,
-                    vertical = 12.dp)) {
+            Row(modifier = Modifier.padding(horizontal = 3.dp,
+                vertical = 12.dp)) {
 
-                    Text("Tip",
-                        modifier = Modifier.align(
-                            alignment = Alignment.CenterVertically
-                        ))
+                Text("Tip",
+                    modifier = Modifier.align(
+                        alignment = Alignment.CenterVertically
+                    ))
 
-                    Spacer(modifier = Modifier.width(200.dp))
+                Spacer(modifier = Modifier.width(200.dp))
 
-                    Text(text = "$ ${tipAmountState.value}",  modifier = Modifier.align(alignment = Alignment.CenterVertically))
-                }
+                Text(text = "$ ${tipAmountState.value}",  modifier = Modifier.align(alignment = Alignment.CenterVertically))
+            }
             Column(verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally) {
 
@@ -209,6 +218,9 @@ fun BillForm(modifier: Modifier,
                         val updatedTipPercentage = (newVal * 100).toInt()
                         tipAmountState.value =
                             calculateTotalTip(totalBill = totalBillState.value, tipPercentage = updatedTipPercentage)
+
+                        totalPerPersonState.value = calculateTotalBillPerPerson(totalBill = totalBillState.value,
+                            splitBy = splitByState.value, tipPercentage = updatedTipPercentage)
                     },
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                     steps = 5,
