@@ -142,11 +142,15 @@ fun BillForm(modifier: Modifier,
                         horizontalArrangement = Arrangement.End) {
                         RoundIconButton(
                             imageVector = Icons.Default.Remove,
-                            onClick = { /*TODO*/ })
+                            onClick = { Log.d("Icon", "BillForm: Removed") })
+
+                        Text(text = "2",
+                            modifier = Modifier.align(Alignment.CenterVertically)
+                                .padding(start = 9.dp, end = 9.dp))
 
                         RoundIconButton(
                             imageVector = Icons.Default.Add,
-                            onClick = { /*TODO*/ })
+                            onClick = { Log.d("Icon", "BillForm: Add") })
                     }
                 }
             } else {
