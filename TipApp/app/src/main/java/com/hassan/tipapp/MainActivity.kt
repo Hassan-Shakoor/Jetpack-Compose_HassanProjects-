@@ -1,6 +1,7 @@
 package com.hassan.tipapp
 
 import android.os.Bundle
+import android.provider.CalendarContract.Colors
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -47,7 +48,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MyApp {
-                //TopHeader()
                 MainContent()
             }
         }
@@ -68,6 +68,7 @@ fun MyApp(content: @Composable () -> Unit) {
 fun TopHeader(totalPerPerson: Double = 134.0) {
     Surface(modifier = Modifier
         .fillMaxWidth()
+        .padding(15.dp)
         .height(150.dp)
         .clip(shape = CircleShape.copy(all = CornerSize(12.dp))),
         color = Color(0xFFE9D7F7)
@@ -94,10 +95,11 @@ fun TopHeader(totalPerPerson: Double = 134.0) {
 @Preview
 @Composable
 fun MainContent() {
-    BillForm(modifier = Modifier){ billAmt ->
-        Log.d("AMT", "MainContent: ${billAmt.toInt() * 100}")
+    Column(modifier = Modifier.padding(all = 12.dp)) {
+        BillForm(modifier = Modifier){ billAmt ->
+            Log.d("AMT", "MainContent: ${billAmt.toInt() * 100}")
+        }
     }
-
 }
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -115,6 +117,9 @@ fun BillForm(modifier: Modifier,
     val sliderPositionState = remember {
         mutableStateOf(0f)
     }
+
+    TopHeader()
+
     Surface(
         modifier = Modifier
             .padding(2.dp)
@@ -182,7 +187,13 @@ fun BillForm(modifier: Modifier,
                     onValueChange = {newVal ->
                         sliderPositionState.value = newVal
                         Log.d("Slider", "BillForm: $newVal")
-                    })
+                    },
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+                    steps = 5,
+                    onValueChangeFinished = {
+                        //Log.d("")
+                    }
+                )
             }
         }
     }
