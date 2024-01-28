@@ -41,6 +41,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.hassan.tipapp.components.InputField
 import com.hassan.tipapp.ui.theme.TipAppTheme
+import com.hassan.tipapp.util.calculateTotalTip
 import com.hassan.tipapp.widgets.RoundIconButton
 
 class MainActivity : ComponentActivity() {
@@ -123,6 +124,10 @@ fun BillForm(modifier: Modifier,
     val splitByState = remember {
         mutableStateOf(1)
     }
+
+    val tipAmountState = remember {
+        mutableStateOf(0.0)
+    }
     val range = IntRange(start =1, endInclusive = 100)
 
     TopHeader()
@@ -188,7 +193,7 @@ fun BillForm(modifier: Modifier,
 
                     Spacer(modifier = Modifier.width(200.dp))
 
-                    Text(text = "$33.00",  modifier = Modifier.align(alignment = Alignment.CenterVertically))
+                    Text(text = "$ ${tipAmountState.value}",  modifier = Modifier.align(alignment = Alignment.CenterVertically))
                 }
             Column(verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally) {
@@ -201,18 +206,19 @@ fun BillForm(modifier: Modifier,
                 Slider(value = sliderPositionState.value,
                     onValueChange = {newVal ->
                         sliderPositionState.value = newVal
-                        Log.d("Slider", "BillForm: $newVal")
+                        val updatedTipPercentage = (newVal * 100).toInt()
+                        tipAmountState.value =
+                            calculateTotalTip(totalBill = totalBillState.value, tipPercentage = updatedTipPercentage)
                     },
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                     steps = 5,
                     onValueChangeFinished = {
-                        //Log.d("")
+
                     }
                 )
             }
         }
     }
-
 }
 
 @Preview(showBackground = true)
