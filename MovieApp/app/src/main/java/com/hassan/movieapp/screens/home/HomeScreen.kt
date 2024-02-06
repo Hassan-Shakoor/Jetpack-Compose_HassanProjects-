@@ -15,6 +15,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.hassan.movieapp.MovieRow
 import com.hassan.movieapp.navigation.MovieScreens
@@ -25,10 +28,11 @@ import com.hassan.movieapp.navigation.MovieScreens
 fun HomeScreen(navController: NavController) {
     Scaffold(topBar = {
         TopAppBar(colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
-            titleContentColor = MaterialTheme.colorScheme.primary,
+            containerColor = Color.Transparent,//MaterialTheme.colorScheme.primaryContainer,
+            //titleContentColor = MaterialTheme.colorScheme.primary,
         ),
-            title = { Text(text = "Movie App Bar") }
+            title = { Text(text = "Movie App Bar") },
+            modifier = Modifier.shadow(2.dp)
         )
     },) { innerPadding ->
         MainContent(navController = navController, innerPadding)
@@ -38,7 +42,9 @@ fun HomeScreen(navController: NavController) {
 @Composable
 fun MainContent (navController: NavController, padding: PaddingValues, movieList: List<String> = listOf(
     "Avatar", "300" ,"Harry Potter", "Life," +
-            "Pursuit of Happiness", "3 Idiots"
+            "Pursuit of Happiness", "3 Idiots",
+            "Prince of Persia",
+            "Man of Steel"
 )) {
     Column(modifier = Modifier.padding(padding)) {
         LazyColumn {
