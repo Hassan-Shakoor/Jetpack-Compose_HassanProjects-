@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -19,8 +18,10 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.hassan.movieapp.MovieRow
+import com.hassan.movieapp.model.Movie
+import com.hassan.movieapp.model.getMovies
 import com.hassan.movieapp.navigation.MovieScreens
+import com.hassan.movieapp.widgets.MovieRow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -40,12 +41,8 @@ fun HomeScreen(navController: NavController) {
 }
 
 @Composable
-fun MainContent (navController: NavController, padding: PaddingValues, movieList: List<String> = listOf(
-    "Avatar", "300" ,"Harry Potter", "Life," +
-            "Pursuit of Happiness", "3 Idiots",
-            "Prince of Persia",
-            "Man of Steel"
-)) {
+fun MainContent (navController: NavController, padding: PaddingValues,
+                 movieList: List<Movie> = getMovies()) {
     Column(modifier = Modifier.padding(padding)) {
         LazyColumn {
             items(items = movieList) {
