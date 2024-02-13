@@ -52,12 +52,12 @@ fun MovieRow(movie: Movie = getMovies()[0], onItemClick: (String) -> Unit = {}) 
     Card(modifier = Modifier
         .padding(4.dp)
         .fillMaxWidth()
-        //.height(130.dp)
         .clickable {
             onItemClick(movie.id)
         },
         shape = RoundedCornerShape(corner = CornerSize(16.dp)),
-        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+        colors = CardDefaults.cardColors(Color.White)
     ){
         Row(verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start) {

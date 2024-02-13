@@ -29,8 +29,7 @@ import com.hassan.movieapp.widgets.MovieRow
 fun HomeScreen(navController: NavController) {
     Scaffold(topBar = {
         TopAppBar(colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = Color.Transparent,//MaterialTheme.colorScheme.primaryContainer,
-            //titleContentColor = MaterialTheme.colorScheme.primary,
+            containerColor = Color.Transparent,
         ),
             title = { Text(text = "Movie App Bar") },
             modifier = Modifier.shadow(2.dp)
