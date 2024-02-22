@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -34,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
@@ -92,12 +94,15 @@ private fun HorizontalScrollableImageView(newMovieList: List<Movie>) {
             Card(
                 modifier = Modifier
                     .padding(12.dp)
-                    .size(240.dp),
+                    .width(220.dp),
+//                    .height(100.dp),
+                    //.aspectRatio(16f/9f),
                 elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
             ) {
                 Image(
                     painter = rememberImagePainter(data = image),
-                    contentDescription = "Movie Poster"
+                    contentDescription = "Movie Poster",
+                    contentScale = ContentScale.FillWidth
                 )
             }
         }
