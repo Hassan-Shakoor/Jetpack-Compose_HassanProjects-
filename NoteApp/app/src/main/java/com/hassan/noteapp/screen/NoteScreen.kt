@@ -130,8 +130,8 @@ fun NoteRow(modifier: Modifier = Modifier,
             horizontalAlignment = Alignment.Start) {
             Text(text = note.title, style = MaterialTheme.typography.titleLarge)
             Text(text = note.description, style = MaterialTheme.typography.titleMedium)
-            Text(text = note.entryDate.format(DateTimeFormatter.ofPattern("EEE, d MMM")),
-                style = MaterialTheme.typography.titleSmall)
+//            Text(text = note.entryDate.format(DateTimeFormatter.ofPattern("EEE, d MMM")),
+//                style = MaterialTheme.typography.titleSmall)
                         
 
         }
