@@ -38,6 +38,7 @@ import com.hassan.noteapp.components.NoteButton
 import com.hassan.noteapp.components.NoteInputText
 import com.hassan.noteapp.data.NoteDataSource
 import com.hassan.noteapp.model.Note
+import com.hassan.noteapp.util.formatDate
 import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -130,8 +131,8 @@ fun NoteRow(modifier: Modifier = Modifier,
             horizontalAlignment = Alignment.Start) {
             Text(text = note.title, style = MaterialTheme.typography.titleLarge)
             Text(text = note.description, style = MaterialTheme.typography.titleMedium)
-//            Text(text = note.entryDate.format(DateTimeFormatter.ofPattern("EEE, d MMM")),
-//                style = MaterialTheme.typography.titleSmall)
+            Text(text = formatDate(note.entryDate.time),
+                style = MaterialTheme.typography.titleSmall)
                         
 
         }

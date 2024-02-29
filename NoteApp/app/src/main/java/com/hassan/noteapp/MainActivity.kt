@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.hassan.noteapp.screen.NoteScreen
@@ -25,7 +26,7 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background) {
-
+                    //val noteViewModel = viewModel<NoteViewModel>()
                     val noteViewModel: NoteViewModel by viewModels()
                     NotesApp(noteViewModel)
 
@@ -37,8 +38,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun NotesApp(noteViewModel: NoteViewModel = viewModel()) {
-    val notesList = noteViewModel.getAllNotes()
+    val notesList = noteViewModel.noteList.collectAsState().value
     NoteScreen(notes = notesList,
         onAddNote = { noteViewModel.addNote(it) },
-        onRemoveNote = { noteViewModel.remove(it) })
+        onRemoveNote = { noteViewModel.removeNote(it) })
 }
